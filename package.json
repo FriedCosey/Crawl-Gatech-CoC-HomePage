@@ -1,0 +1,23 @@
+{
+  "name": "crawlfaculty",
+  "version": "1.0.0",
+  "description": "Web crawler to crawl homepage url of Gatech CoC faculty.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FriedCosey/CrawlFaculty.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FriedCosey/CrawlFaculty/issues"
+  },
+  "homepage": "https://github.com/FriedCosey/CrawlFaculty#readme",
+  "dependencies": {
+    "crawler": "^1.2.0",
+    "valid-url": "^1.0.9"
+  }
+}

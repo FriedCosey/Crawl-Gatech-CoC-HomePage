@@ -3,17 +3,22 @@ var validUrl = require('valid-url');
 var visited = [];
 var urlQueue = [];
 var counter = 0;
+var result = [];
+var level = 0;
 
-var c = new Crawler({
+var c1 = new Crawler({
     maxConnections : 10,
-    rateLimit: 2000,
+    rateLimit: 1000,
 
     callback : function (error, res, done) {
+        if(level == 20) // No U
+            level++;
+        process.stdout.write(String.fromCharCode('A'.charCodeAt() + level) + "... ");
+        level++;
         if(error){
-            //console.log(error);
+            console.log(error);
         }else{
             var $ = res.$;
-            console.log("--------------------");
             if(typeof $ !== "undefined"){
                 $("a").each(function(index, link){
                     var uri = link.attribs.href;
@@ -30,18 +35,49 @@ var c = new Crawler({
                 });
             }
         }
-        console.log("Num Faculty: " + counter);
+        if(level == 26){
+            process.stdout.write('\n');
+            searchHomePage();
+        }
+            
         done();
     }
 });
 
-// Queue just one URL, with default callback
-c.maxDepth = 1;
-visited.push('https://www.cc.gatech.edu/people/faculty/A');
-c.queue('https://www.cc.gatech.edu/people/faculty/A');
+var c2 = new Crawler({
+    maxConnections : 10,
+    rateLimit: 1000,
+
+    callback : function (error, res, done) {
+        level++;
+        if(error){
+            console.log(error);
+        }else{
+            var $ = res.$;
+            console.log($("title").text());
+            if(typeof $ !== "undefined"){
+                $(".field-label").each(function(){
+                    if($(this).text().match(/Personal Webpage/)){
+                        console.log($(this).next().text());
+                    }
+                });
+
+            }
+
+        }
+            
+        done();
+    }
+});
+
+function searchFaculty(){
+    console.log("Searching Faculty URLs ......");
+    process.stdout.write("Fetching last name ending in: ");
+    visited.push('https://www.cc.gatech.edu/people/faculty/A');
+    c1.queue('https://www.cc.gatech.edu/people/faculty/A');
+}
 
 function matchPeople(uri){
-
     if(uri.match(/\/people\//)){
         if(uri.match(/faculty/)){
             if(uri.match(/all/) || !uri.match(/faculty\/[A-Z]$/))
@@ -49,14 +85,23 @@ function matchPeople(uri){
             if(visited.includes(uri));
             else{
                 visited.push(uri);
-                c.queue(uri);
+                c1.queue(uri);
             }
         }
         else{
             if(uri.match(/staff/) || uri.match(/expert/))
                 return;
             counter++;
-            console.log(uri);
+            result.push(uri);
         }
     }
 }
+
+function searchHomePage(){
+    for(let i = 0; i < result.length; i++){
+        c2.queue(result[i]);
+    }
+}
+
+searchFaculty();
+

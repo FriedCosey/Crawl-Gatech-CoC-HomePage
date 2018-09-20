@@ -84,3 +84,9 @@ https://www.cc.gatech.edu/~jarulraj/
 David A. Bader | College of Computing
 http://www.cc.gatech.edu/~bader
 ```
+
+### Download the home page
+
+- Sample Output
+
+![image](https://user-images.githubusercontent.com/29709822/45790836-ce58c900-bc54-11e8-9a9a-935484616a9a.png)

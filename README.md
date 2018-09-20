@@ -85,7 +85,7 @@ David A. Bader | College of Computing
 http://www.cc.gatech.edu/~bader
 ```
 
-### Download the home page
+### Download the homepage
 
 - Sample Output
 

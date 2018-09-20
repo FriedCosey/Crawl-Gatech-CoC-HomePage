@@ -2,6 +2,9 @@ var Crawler = require("crawler");
 var validUrl = require('valid-url');
 var robotto = require('robotto');
 const normalizeUrl = require('normalize-url');
+var fs = require('fs');
+var request = require('request');
+var mkdirp = require('mkdirp');
 var visited = [];
 var urlQueue = [];
 var counter = 0;
@@ -58,10 +61,15 @@ var c2 = new Crawler({
         }else{
             var $ = res.$;
             console.log($("title").text());
+            let titleName = $("title").text();
             if(typeof $ !== "undefined"){
                 $(".field-label").each(function(){
                     if($(this).text().match(/Personal Webpage/)){
                         console.log($(this).next().text());
+                        if(validUrl.isUri($(this).next().text())){                
+                            request($(this).next().text()).on('error', function(err){
+    console.log(err)}).pipe(fs.createWriteStream("./tmp/" + titleName + ".html"));
+                        }
                     }
                 });
 
@@ -123,5 +131,11 @@ function checkRobot(uri, c){
     });
 }
 
-searchFaculty();
+mkdirp('./tmp/', function (err) {
+    if (err) console.error(err)
+    else{
+        console.log('Created ./tmp folder!');
+        searchFaculty();
+    }
+});
 

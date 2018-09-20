@@ -89,4 +89,4 @@ http://www.cc.gatech.edu/~bader
 
 - Sample Output
 
-![image](https://user-images.githubusercontent.com/29709822/45790836-ce58c900-bc54-11e8-9a9a-935484616a9a.png)
+![image](https://user-images.githubusercontent.com/29709822/45790940-5dfe7780-bc55-11e8-8a81-bfab3884de4f.png)

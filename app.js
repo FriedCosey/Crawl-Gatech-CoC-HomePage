@@ -1,10 +1,12 @@
 var Crawler = require("crawler");
 var validUrl = require('valid-url');
+var robotto = require('robotto');
 var visited = [];
 var urlQueue = [];
 var counter = 0;
 var result = [];
 var level = 0;
+
 
 var c1 = new Crawler({
     maxConnections : 10,
@@ -71,10 +73,11 @@ var c2 = new Crawler({
 });
 
 function searchFaculty(){
+    let init = 'https://www.cc.gatech.edu/people/faculty/A';
     console.log("Searching Faculty URLs ......");
     process.stdout.write("Fetching last name ending in: ");
-    visited.push('https://www.cc.gatech.edu/people/faculty/A');
-    c1.queue('https://www.cc.gatech.edu/people/faculty/A');
+    visited.push(init);
+    checkRobot(init, c1);
 }
 
 function matchPeople(uri){
@@ -85,7 +88,7 @@ function matchPeople(uri){
             if(visited.includes(uri));
             else{
                 visited.push(uri);
-                c1.queue(uri);
+                checkRobot(uri, c1);
             }
         }
         else{
@@ -99,8 +102,24 @@ function matchPeople(uri){
 
 function searchHomePage(){
     for(let i = 0; i < result.length; i++){
-        c2.queue(result[i]);
+        checkRobot(result[i], c2);
     }
+}
+
+
+function checkRobot(uri, c){
+    robotto.canCrawl('GatechCrawler', uri , function(err, isAllowed) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        if (isAllowed) {
+            c.queue(uri);
+        } else {
+            console.log('I am not allowed to crawl this url.');
+        }
+    });
 }
 
 searchFaculty();

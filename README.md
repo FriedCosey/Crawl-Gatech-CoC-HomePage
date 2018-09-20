@@ -1,5 +1,5 @@
 # Crawling the Homepage of Gatech CoC Faculty
-A simple crawler to crawl the home page url of Gatech CoC faculty. (https://www.cc.gatech.edu/people/faculty)
+A simple crawler to crawl the home page url of Gatech CoC faculty and download their homepage. (https://www.cc.gatech.edu/people/faculty)
 
 ```
 node version v8.12.0

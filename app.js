@@ -1,6 +1,7 @@
 var Crawler = require("crawler");
 var validUrl = require('valid-url');
 var robotto = require('robotto');
+const normalizeUrl = require('normalize-url');
 var visited = [];
 var urlQueue = [];
 var counter = 0;
@@ -115,7 +116,7 @@ function checkRobot(uri, c){
         }
 
         if (isAllowed) {
-            c.queue(uri);
+            c.queue(normalizeUrl(uri));
         } else {
             console.log('I am not allowed to crawl this url.');
         }
